@@ -1,0 +1,5 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","8901","Adding Item 3 in cart and Item name is Stylish Dress","chromium","2026-05-25","passed","2026-05-25","Shopping Test","pageLogin.spec.ts","",""
+"","9234","Adding Item 2 in cart and Item name is Men Tshirt","chromium","2026-05-25","passed","2026-05-25","Shopping Test","pageLogin.spec.ts","",""
+"","10397","Cart Items","chromium","2026-05-25","passed","2026-05-25","Shopping Test","pageLogin.spec.ts","",""
+"","8909","Adding Item 1 in cart and Item name is Blue Top","chromium","2026-05-25","passed","2026-05-25","Shopping Test","pageLogin.spec.ts","",""

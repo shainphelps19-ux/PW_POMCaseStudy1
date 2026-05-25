@@ -1,36 +1,59 @@
 import { test, expect } from '@playwright/test'
+import ProductPage from '../pages/ProductPage'
+import {items} from '../testdata/items.json'
+import CartPage from '../pages/CartPage'
+import CheckoutPage from '../pages/CheckoutPage'
+import PaymentPage from '../pages/PaymentPage'
+import OrderConfirmationPage from '../pages/OrderConfirmationPage'
+import paymentData from '../testData/address.json'
 
+test.describe('Shopping Test',()=>{
 
-
-test('get started link', async ({ page }) => {
-   await page.goto('https://www.automationexercise.com')
+  let productPage:ProductPage
+  let cartPage:CartPage
+  let checkoutPage:CheckoutPage
+  let paymentPage:PaymentPage
+  let orderConfirmationPage:OrderConfirmationPage
   
-  // await page.getByRole('link', { name: ' Signup / Login' }).click()
-  // await page.locator('form').filter({ hasText: 'Login' }).getByPlaceholder('Email Address').fill('sherwin@gmail.com')
-  // await page.getByRole('textbox', { name: 'Password' }).fill('P@ssw0rd')
-  // await page.getByRole('button', { name: 'Login' }).click()
-  // const Loggedinuser = page.locator('#header')
-  // await expect(Loggedinuser).toContainText('Sherwin')
 
+test.beforeEach(async({page})=>{
+  await page.goto('/')
+  productPage=new ProductPage(page)
+  cartPage=new CartPage(page)
+  checkoutPage=new CheckoutPage(page)
+  paymentPage=new PaymentPage(page)
+  orderConfirmationPage=new OrderConfirmationPage(page)
+})
 
-  await page.getByText('Add to cart').first().click()
-  //await page.getByText('Add to cart').nth(3).click()
+  items.forEach((item,index)=>{
+  test(` Adding Item ${index+1} in cart and Item name is ${item.name}`,async({page}) => {
+  await productPage.viewandaddProduct(item.name)
+  })
+})
  
- await page.getByRole('link', { name: 'View Cart' }).click()
-  //await page.getByRole('listitem').filter({ hasText: 'Cart' }).click()
+ test('Cart Items',async({page})=>{
+  await cartPage.gotocart()
+  const count = await cartPage.getCartItemCount()
+  console.log(`Total items in cart: ${count}`)
+  expect(count).toBe(3)
+  await cartPage.checkout()
+  await checkoutPage.verifyAddresses()
+  await paymentPage.placeorder()
+  await paymentPage.fillPaymentDetails(
+    paymentData.cardName,
+    paymentData.cardNumber,
+    paymentData.cvv,
+    paymentData.month,
+    paymentData.year
+  )
+  await orderConfirmationPage.confirmorder()
+  await orderConfirmationPage.orderplaced()
+  await orderConfirmationPage.downloadInvoice()
+
   
-  await page.getByText('Proceed To Checkout').click()
-  await page.getByRole('link', { name: 'Place Order' }).click()
-  await page.locator('input[name="name_on_card"]').fill('Sherwin')
-  await page.locator('input[name="card_number"]').fill('123456789123456')
-  await page.getByRole('textbox', { name: 'ex.' }).fill('123')
-  await page.getByRole('textbox', { name: 'MM' }).fill('12')
-  await page.getByRole('textbox', { name: 'YYYY' }).fill('2026')
-  await page.getByRole('button', { name: 'Pay and Confirm Order' }).click()
+ })
 
-  await page.waitForTimeout(5000)
-
-
+ 
 
 
 
