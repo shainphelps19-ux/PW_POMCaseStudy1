@@ -33,9 +33,13 @@ test.beforeEach(async({page})=>{
  
  test('Cart Items',async({page})=>{
   await cartPage.gotocart()
-  const count = await cartPage.getCartItemCount()
-  console.log(`Total items in cart: ${count}`)
-  expect(count).toBe(3)
+  const countBeforeDelete = await cartPage.getCartItemCount()
+  console.log(`Total items in cart before delete: ${countBeforeDelete}`)
+  expect(countBeforeDelete).toBe(3)
+  await cartPage.deleteBlueTopItem()
+  const countAfterDelete = await cartPage.getCartItemCount()
+  console.log(`Total items in cart after delete: ${countAfterDelete}`)
+  expect(countAfterDelete).toBe(2)
   await cartPage.checkout()
   await checkoutPage.verifyAddresses()
   await paymentPage.placeorder()

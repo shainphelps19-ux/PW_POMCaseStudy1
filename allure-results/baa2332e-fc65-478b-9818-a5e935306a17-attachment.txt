@@ -1,0 +1,2 @@
+Total items in cart before delete: 3
+Total items in cart after delete: 2

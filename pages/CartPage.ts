@@ -5,6 +5,7 @@ export default class CartPage{
     readonly items : Locator
     readonly chkoutBtn : Locator
     readonly cartLink : Locator
+    readonly deleteBtn : Locator
     
 
 
@@ -14,6 +15,7 @@ export default class CartPage{
         this.cartLink = this.page.getByRole('link',{name:'Cart'})
         this.items = this.page.locator('#cart_info_table tbody tr')
         this.chkoutBtn = page.getByText('Proceed To Checkout')
+        this.deleteBtn = page.locator('tr',{hasText:'Blue Top'}).locator('a.cart_quantity_delete')
       }
     
     async gotocart(){
@@ -30,5 +32,13 @@ export default class CartPage{
     
   }
 
+  async deleteBlueTopItem (){
+    await this.deleteBtn.click()
+    await this.page.waitForTimeout(10000)
+  }
+
 
 }
+
+
+  
